@@ -1,0 +1,8 @@
+{
+  "name": "c7",
+  "version": "1.0.0",
+  "description": "C7 is a canvas-based UI toolkit.",
+  "bin": "./script/create.js",
+  "author": "Zhilin Liu",
+  "license": "Anti 996"
+}
