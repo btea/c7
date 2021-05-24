@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
-
+const isWindows = process.platform === 'win32'
 
 function copy(source, target) {
     if (!fs.existsSync(target)) {
@@ -27,6 +27,11 @@ function pack(source) {
     let code = ''
     if (fs.lstatSync(source).isDirectory()) {
         let files = fs.readdirSync(source)
+        if (isWindows) {
+            if (files.includes('_component.js')) {
+                files = [...new Set(['_component.js', ...files])]
+            }
+        }
         for (let file of files) {
             code += pack(`${source}/${file}`)
         }
