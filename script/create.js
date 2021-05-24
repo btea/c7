@@ -26,7 +26,7 @@ function copy(source, target) {
 function pack(source) {
     let code = ''
     if (fs.lstatSync(source).isDirectory()) {
-        let files = fs.readdirSync(source)
+        let files = fs.readdirSync(source).sort()
         for (let file of files) {
             code += pack(`${source}/${file}`)
         }
