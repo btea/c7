@@ -4,7 +4,7 @@
 
 `C7` is a canvas-based UI toolkit.
 
-[中文版](./README_CN.md)
+[中文版](https://github.com/c7js/c7/blob/main/README_CN.md)
 
 
 ## Introduction
@@ -14,7 +14,7 @@
 - MVVM
 - Scaffolding and development server out of the box (supports hot reload)
 <div style="text-align: center;">
-    <img src="./readme.png" style="width: 700px;">
+    <img src="https://github.com/c7js/c7/raw/main/readme.png" style="width: 700px;">
 </div>
 Preview address: <a href="https://c7js.github.io/" target="_blank">c7js.github.io</a>
 
