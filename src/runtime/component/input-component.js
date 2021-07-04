@@ -157,7 +157,7 @@ class InputComponent extends Component {
                     if (this.index < this.array.length - 1) {
                         this.index += 1                        
                     }
-                } else if (event.metaKey) {
+                } else if (event.metaKey || event.ctrlKey) {
                     if (key === 'c') {
                         navigator.clipboard.writeText(this.selectedValue)
                     } else if (key === 'v') {
@@ -203,7 +203,7 @@ class InputComponent extends Component {
                         this.selected = { start: 0, end: this.array.length - 1}
                     }
                 } else {
-                    if (key === 'Enter' || key === 'Shift') {
+                    if (key === 'Enter' || key === 'Shift' || key === 'Alt') {
                         return
                     }
                     this.context.font = '14px sans-serif'
