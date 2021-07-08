@@ -1,7 +1,6 @@
 class InputComponent extends Component {
     constructor(component, context) {
         super(component, context)
-        this.firstDraw = true
         this.focus = false
         this.array = []
         this.index = -1
@@ -178,6 +177,7 @@ class InputComponent extends Component {
                                 this.selected = { start: -1, end: -1 }
                                 this.index -= deleteLength
                                 this.index += text.length
+                                this.vm[this.bind] = this.value
                             } else {
                                 // 检查所粘贴内容是否超出输入框
                                 let temp = this.array.slice(0)
@@ -189,7 +189,8 @@ class InputComponent extends Component {
                                     return
                                 }
                                 this.array.splice(this.index + 1, 0, ...text.split(''))
-                                this.index += text.length    
+                                this.index += text.length
+                                this.vm[this.bind] = this.value
                             }
                         })
                     } else if (key === 'x') {
@@ -240,10 +241,7 @@ class InputComponent extends Component {
     }
 
     draw() {
-        if (this.firstDraw) {
-            this.firstDraw = false
-            this.array = this.props.value.split('')
-        }
+        this.array = this.props.value.split('')
         // 边框
         let width = parseInt(this.style['width'].value)
         let height = parseInt(this.style['height'].value)
