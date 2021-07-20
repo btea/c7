@@ -3,8 +3,9 @@ function main() {
     new StyleBinder(template, style).bind()
     let canvas = new Canvas()
     let component = new TemplateParser(template, canvas.context).parse()
-    component.style['width'] = { value: canvas.canvas.width }
-    component.style['height'] = { value: canvas.canvas.height }
+    // 如果 dpr 不为 1, 需要缩放 canvas. 但其 style 的宽高始终和视口是一致的.
+    component.style['width'] = { value: canvas.canvas.style.width }
+    component.style['height'] = { value: canvas.canvas.style.height }
     new Mvvm(component, script, () => {
         // 在属性发生改变的时候重排
         new Layouter(component).layout()
