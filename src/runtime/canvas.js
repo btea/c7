@@ -30,6 +30,7 @@ class Canvas {
     }
 
     responsive() {
+        let timer = null
         let resize = () => {
             let dpr = window.devicePixelRatio
             this.canvas.width = window.innerWidth * dpr
@@ -40,10 +41,13 @@ class Canvas {
         }
         resize()
         window.addEventListener('resize', () => {
-            resize()
-            this.component.style['width'].value = window.innerWidth
-            this.component.style['height'].value = window.innerHeight
-            this.reLayout()
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                resize()
+                this.component.style['width'].value = window.innerWidth
+                this.component.style['height'].value = window.innerHeight
+                this.reLayout()    
+            }, 100)
         })
     }
 
