@@ -30,7 +30,8 @@ class ColorComponent extends Component {
                 event.clientY <= this.layout.bottom + 145)
             {
                 if (this.show) {
-                    let [r, g, b] = this.context.getImageData(event.clientX, event.clientY, 1, 1).data
+                    let dpr = window.devicePixelRatio
+                    let [r, g, b] = this.context.getImageData(event.clientX * dpr, event.clientY * dpr, 1, 1).data
                     this.value = `rgb(${r}, ${g}, ${b})`
                     this.vm[this.bind] = this.value
                     this.show = false

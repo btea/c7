@@ -30,13 +30,19 @@ class Canvas {
     }
 
     responsive() {
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
+        let resize = () => {
+            let dpr = window.devicePixelRatio
+            this.canvas.width = window.innerWidth * dpr
+            this.canvas.height = window.innerHeight * dpr
+            this.canvas.style.width = `${window.innerWidth}px`
+            this.canvas.style.height = `${window.innerHeight}px`
+            this.context.scale(dpr, dpr)
+        }
+        resize()
         window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth
-            this.canvas.height = window.innerHeight
-            this.component.style['width'].value = this.canvas.width
-            this.component.style['height'].value = this.canvas.height
+            resize()
+            this.component.style['width'].value = window.innerWidth
+            this.component.style['height'].value = window.innerHeight
             this.reLayout()
         })
     }
