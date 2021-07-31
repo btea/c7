@@ -321,7 +321,5 @@ class InputComponent extends Component {
             this.context.fillStyle = 'white'
             this.context.fillText(state, x, 13)
         }
-        // 输入法
-        this.ime.draw()
     }
 }
