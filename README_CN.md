@@ -13,6 +13,7 @@
 - Flex 布局以及常用的 CSS
 - MVVM
 - 开箱即用的脚手架和开发服务器(支持热重载)
+- 中文输入法
 <div style="text-align: center;">
     <img src="./readme.png" style="width: 700px;">
 </div>

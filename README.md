@@ -13,6 +13,7 @@
 - Flex layout and commonly used CSS
 - MVVM
 - Scaffolding and development server out of the box (supports hot reload)
+- Chinese input method editor (IME)
 <div style="text-align: center;">
     <img src="https://github.com/c7js/c7/raw/main/readme.png" style="width: 700px;">
 </div>

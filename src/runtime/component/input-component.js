@@ -1,6 +1,16 @@
 class InputComponent extends Component {
     constructor(component, context) {
         super(component, context)
+        this.imeConfig = {
+            active: false,
+            x: 0,
+            y: 0,
+        }
+        this.imeEvent = null
+        this.ime = new ImeComponent(component, context, this.imeConfig, (value) => {
+            this.imeEvent = value
+        })
+        this.showImeToast = false
         this.focus = false
         this.array = []
         this.index = -1
@@ -35,7 +45,10 @@ class InputComponent extends Component {
     get caretPosition() {
         this.context.font = '14px sans-serif'
         let width = this.context.measureText(this.array.slice(0, this.index + 1).join('')).width
-        return this.startPosition + width
+        let result = this.startPosition + width
+        this.imeConfig.x = result - 15
+        this.imeConfig.y = this.layout.bottom
+        return result
     }
 
     setBox() {
@@ -135,6 +148,9 @@ class InputComponent extends Component {
             if (this.focus) {
                 let key = event.key
                 if (key === 'Backspace') {
+                    if (this.imeEvent?.state === 'input') {
+                        return
+                    }
                     // 必须用嵌套的写法, 如果是逻辑与运算的话, 后面还有可能满足外层 if
                     if (this.value !== '') {
                         if (this.selected.start !== -1 && this.selected.end !== -1) {
@@ -204,14 +220,29 @@ class InputComponent extends Component {
                         this.selected = { start: 0, end: this.array.length - 1}
                     }
                 } else {
-                    if (key === 'Enter' || key === 'Shift' || key === 'Alt') {
+                    if (['Escape', 'Enter', 'Alt', 'ArrowUp', 'ArrowDown'].includes(key)) {
                         return
+                    }
+                    if (key === 'Shift') {
+                        this.imeConfig.active = !this.imeConfig.active
+                        this.showImeToast = true
+                        setTimeout(() => {
+                            this.showImeToast = false
+                        }, 1000)
+                        return
+                    }
+                    if (this.imeConfig.active) {
+                        key = ''
+                        if (this.imeEvent.state === 'done') {
+                            key = this.imeEvent.value
+                            this.index += 1
+                        }
                     }
                     this.context.font = '14px sans-serif'
                     if (this.selected.start !== -1 && this.selected.end !== -1) {
                         let start = Math.min(this.selected.start, this.selected.end)
                         let end = Math.max(this.selected.start, this.selected.end)
-                        this.array.splice(start, end - start + 1, event.key)
+                        this.array.splice(start, end - start + 1, key)
                         this.index = start
                         this.selected = { start: -1, end: -1}
                     } else {
@@ -219,8 +250,10 @@ class InputComponent extends Component {
                         if (width >= parseInt(this.style['width'].value) - 30) {
                             return
                         }
-                        this.index += 1
-                        this.array.splice(this.index, 0, event.key)    
+                        if (!this.imeConfig.active) {
+                            this.index += 1
+                        }
+                        this.array.splice(this.index, 0, key)    
                     }
                 }
                 this.vm[this.bind] = this.value
@@ -276,5 +309,19 @@ class InputComponent extends Component {
                 this.context.fillText(this.props.hint, this.startPosition, this.layout.top + 12)
             }
         }
+        // 输入法状态 toast
+        if (this.showImeToast) {
+            let state = this.imeConfig.active ? '中文' : 'English'
+            let x = this.imeConfig.active ? 36 : 20
+            this.roundedRect(0, 0, 120, 50, 10, 'lightgray')
+            this.context.fillStyle = 'rgba(0, 0, 0, 0.5)'
+            this.context.fill()
+            this.context.textBaseline = 'top'
+            this.context.font = '24px sans-serif'
+            this.context.fillStyle = 'white'
+            this.context.fillText(state, x, 13)
+        }
+        // 输入法
+        this.ime.draw()
     }
 }
