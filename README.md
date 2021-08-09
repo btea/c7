@@ -74,6 +74,7 @@ return {
         - Insert caret at mouse position
         - Mouse drag and drop to select, double click to select all
         - copy (command-c), paste (command-c), cut (command-x), select all (command-a)
+        - Press shift to switch input method editor
     - You can use &lt;div&gt; as a container, but currently only supports single-level nesting (that is, you cannot nest another &lt;div&gt; in a &lt;div&gt;)
 - CSS
     - Flex is the default and only layout method, no need to write "display: flex;"
