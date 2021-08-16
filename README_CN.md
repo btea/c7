@@ -13,6 +13,7 @@
 - Flex 布局以及常用的 CSS
 - MVVM
 - 开箱即用的脚手架和开发服务器(支持热重载)
+- 中文输入法
 <div style="text-align: center;">
     <img src="./readme.png" style="width: 700px;">
 </div>
@@ -73,6 +74,7 @@ return {
         - 鼠标位置插入光标
         - 鼠标拖放选择, 双击全选
         - 复制(command-c), 粘贴(command-c), 剪切(command-x), 全选(command-a)
+        - 按 shift 切换输入法
     - 可以使用 &lt;div&gt; 作为容器, 但目前只支持单层嵌套(即不能在 &lt;div&gt; 中再嵌套一个 &lt;div&gt;)
 - CSS
     - flex 作为默认且唯一的布局方式, 不需要再写 "display: flex;"

@@ -13,6 +13,7 @@
 - Flex layout and commonly used CSS
 - MVVM
 - Scaffolding and development server out of the box (supports hot reload)
+- Chinese input method editor (IME)
 <div style="text-align: center;">
     <img src="https://github.com/c7js/c7/raw/main/readme.png" style="width: 700px;">
 </div>
@@ -73,6 +74,7 @@ return {
         - Insert caret at mouse position
         - Mouse drag and drop to select, double click to select all
         - copy (command-c), paste (command-c), cut (command-x), select all (command-a)
+        - Press shift to switch input method editor
     - You can use &lt;div&gt; as a container, but currently only supports single-level nesting (that is, you cannot nest another &lt;div&gt; in a &lt;div&gt;)
 - CSS
     - Flex is the default and only layout method, no need to write "display: flex;"

@@ -2,6 +2,7 @@ class Canvas {
     constructor() {
         this.canvas = document.querySelector('canvas')
         this.context = this.canvas.getContext('2d')
+        this.ime = null
         this.responsive()
         this.setDefaultCursor()
     }
@@ -19,10 +20,14 @@ class Canvas {
         setInterval(() => {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.draw(component)
+            this.ime?.draw()
         }, 1000/60)
     }
 
     draw(component) {
+        if (component instanceof InputComponent) {
+            this.ime = component.ime
+        }
         component.draw()
         for (let child of component.children) {
             this.draw(child)
@@ -30,6 +35,7 @@ class Canvas {
     }
 
     responsive() {
+        let timer = null
         let resize = () => {
             let dpr = window.devicePixelRatio
             this.canvas.width = window.innerWidth * dpr
@@ -40,10 +46,13 @@ class Canvas {
         }
         resize()
         window.addEventListener('resize', () => {
-            resize()
-            this.component.style['width'].value = window.innerWidth
-            this.component.style['height'].value = window.innerHeight
-            this.reLayout()
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                resize()
+                this.component.style['width'].value = window.innerWidth
+                this.component.style['height'].value = window.innerHeight
+                this.reLayout()    
+            }, 100)
         })
     }
 
