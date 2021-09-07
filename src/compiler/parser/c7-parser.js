@@ -11,6 +11,9 @@ class C7Parser {
     parse() {
         for (let char of this.sourceCode) {
             this.state = this.state(char)
+            if (this.currentToken?.tagName === 'script' && this.state === this.atData) {
+                this.state = this.atScript
+            }
         }
         let children = this.stack[0].children
         return {
@@ -168,6 +171,128 @@ class C7Parser {
         } else if (char === '>') {
             this.emitToken()
             return this.atData
+        }
+    }
+
+    atScript(char) {
+        if (char === '<') {
+            return this.atScriptEndTag1
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: char,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // <
+    atScriptEndTag1(char) {
+        if (char === '/') {
+            return this.atScriptEndTag2
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `<${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </
+    atScriptEndTag2(char) {
+        if (char === 's') {
+            return this.atScriptEndTag3
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </s
+    atScriptEndTag3(char) {
+        if (char === 'c') {
+            return this.atScriptEndTag4
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</s${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </sc
+    atScriptEndTag4(char) {
+        if (char === 'r') {
+            return this.atScriptEndTag5
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</sc${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </scr
+    atScriptEndTag5(char) {
+        if (char === 'i') {
+            return this.atScriptEndTag6
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</scr${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </scri
+    atScriptEndTag6(char) {
+        if (char === 'p') {
+            return this.atScriptEndTag7
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</scri${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </scrip
+    atScriptEndTag7(char) {
+        if (char === 't') {
+            return this.atScriptEndTag8
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</scrip${char}`,
+            }
+            this.emitToken()
+            return this.atScript
+        }
+    }
+    // </script
+    atScriptEndTag8(char) {
+        if (char === '>') {
+            this.currentToken = {
+                type: 'endTag',
+                tagName: 'script',
+            }
+            this.emitToken()
+            return this.atData
+        } else {
+            this.currentToken = {
+                type: 'code',
+                content: `</script${char}`,
+            }
+            this.emitToken()
+            return this.atScript
         }
     }
 }
