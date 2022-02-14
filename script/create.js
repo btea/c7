@@ -38,6 +38,10 @@ function pack(source) {
 
 function create() {
     let name = process.argv[2]
+    if (!name) {
+        console.log(`Please provide the project name`)
+        return
+    }
     copy(path.join(__dirname, '../template'), name)
     copy(path.join(__dirname, '../src/compiler'), `${name}/compiler`)
     let src = pack(path.join(__dirname, '../src/runtime'))
